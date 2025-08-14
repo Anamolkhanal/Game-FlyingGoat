@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using TMPro;
 
 public class ObstacleSpawner : MonoBehaviour
 {
@@ -18,15 +19,36 @@ public class ObstacleSpawner : MonoBehaviour
     private SpriteRenderer prefabRenderer;
     private int activeObstacleCount = 0;
     private float lastY = 0f;              // Track last obstacle's Y position
-    private int score = 0;                 // Track the score
+    private int score = 0;
+
+    public TextMeshProUGUI scoreTxt;            // Track the score
     private List<bool> obstaclePassed;     // Track which obstacles have been passed
     private GameObject goat;               // Reference to the goat object
 
     void Start()
     {
+        // Check if obstacle prefab is assigned
+        if (obstaclePrefab == null)
+        {
+            Debug.LogError("Obstacle Prefab is not assigned! Please assign an obstacle prefab in the Inspector!");
+            return;
+        }
+        
         obstacles = new List<GameObject>();
         obstaclePassed = new List<bool>();
         prefabRenderer = obstaclePrefab.GetComponent<SpriteRenderer>();
+        
+        // Debug UI text reference
+        if (scoreTxt == null)
+        {
+            Debug.LogError("Score Text is not assigned! Please assign the TextMeshPro UI element in the Inspector!");
+        }
+        else
+        {
+            Debug.Log("Score Text is assigned: " + scoreTxt.name);
+            // Set initial score text
+            scoreTxt.text = "0";
+        }
         
         // Find the goat object automatically
         goat = GameObject.FindGameObjectWithTag("Player");
@@ -92,12 +114,14 @@ public class ObstacleSpawner : MonoBehaviour
         for (int i = 0; i < activeObstacleCount; i++)
         {
             GameObject obstacle = obstacles[i];
-            
+            if (obstacle == null) continue; // Skip destroyed obstacles
+
             // Check if goat has passed the obstacle
             if (!obstaclePassed[i] && goat != null && goat.transform.position.x > obstacle.transform.position.x)
             {
                 score++;
                 obstaclePassed[i] = true;
+                scoreTxt.text = score.ToString("0");
                 Debug.Log("----------------------------------------");
                 Debug.Log("GOAT PASSED OBSTACLE!");
                 Debug.Log("SCORE: " + score);
@@ -114,7 +138,19 @@ public class ObstacleSpawner : MonoBehaviour
 
     void CreateNewObstacle()
     {
+        if (obstaclePrefab == null)
+        {
+            Debug.LogError("Cannot create obstacle - obstaclePrefab is null!");
+            return;
+        }
+        
         GameObject obstacle = Instantiate(obstaclePrefab, new Vector3(spawnX, 0, 0), Quaternion.identity);
+        
+        if (obstacle == null)
+        {
+            Debug.LogError("Failed to instantiate obstacle!");
+            return;
+        }
         
         // Set the sorting order
         SpriteRenderer renderer = obstacle.GetComponent<SpriteRenderer>();
@@ -160,5 +196,47 @@ public class ObstacleSpawner : MonoBehaviour
     public int GetScore()
     {
         return score;
+    }
+
+    // Add this method to reset the score
+    public void ResetScore()
+    {
+        score = 0;
+        if (scoreTxt != null)
+        {
+            scoreTxt.text = "0";
+        }
+        Debug.Log("ObstacleSpawner score reset to 0");
+    }
+
+    public void ClearObstacles()
+    {
+        foreach (GameObject obstacle in obstacles)
+        {
+            if (obstacle != null)
+                Destroy(obstacle);
+        }
+        obstacles.Clear();
+        obstaclePassed.Clear();
+        activeObstacleCount = 0;
+    }
+
+    public void InitializeObstacles()
+    {
+        for (int i = 0; i < numberOfObstacles; i++)
+        {
+            CreateNewObstacle();
+            obstaclePassed.Add(false);
+        }
+
+        // Stagger the initial spawns
+        for (int i = 0; i < numberOfObstacles; i++)
+        {
+            float delay = i * initialSpawnDelay;
+            Invoke("SpawnInitialObstacle", delay);
+        }
+
+        activeObstacleCount = 0;
+        nextSpawnTime = Time.time + Random.Range(minSpawnInterval, maxSpawnInterval);
     }
 } 

@@ -202,6 +202,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -922,7 +935,39 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      goat_0: -6989495785908772370
+      goat_1: 7971134921851377041
+      goat_10: -5225265788890690264
+      goat_11: -3094342084852947592
+      goat_12: -5569922116587727798
+      goat_13: -4589772968739369761
+      goat_14: 4787181056097962915
+      goat_15: -1937471014782199995
+      goat_16: 6305802634807745839
+      goat_17: 6767950467615969058
+      goat_18: -779950224946680558
+      goat_19: 406999211141415032
+      goat_2: 2313714663024833429
+      goat_20: 3479812266794053164
+      goat_21: 4508870511465048341
+      goat_22: 5699563996284985513
+      goat_23: -1478041601070633858
+      goat_24: 5760391023535128692
+      goat_25: 6345907026540622657
+      goat_26: -652793659474520127
+      goat_27: -7005115108746467567
+      goat_28: 6227486828168469325
+      goat_29: -6158677327832064926
+      goat_3: 3837019770858882434
+      goat_30: 7508820822401353177
+      goat_31: 3702154328485987025
+      goat_4: 3300526657485461106
+      goat_5: -7480023286876422322
+      goat_6: 8008303228198887923
+      goat_7: 4845193755381000196
+      goat_8: -904100446752609024
+      goat_9: 7044031836658608581
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
